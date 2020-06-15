@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/user");
 
 exports.register = (req, res) => {
   const user = new User(req.body);
@@ -44,5 +44,15 @@ exports.login = (req, res) => {
           });
       });
     });
+  });
+};
+
+exports.authUser = (req, res) => {
+  return res.status(200).json({
+    data: {
+      isAuth: true,
+      name: req.user.name,
+      email: req.user.email,
+    },
   });
 };

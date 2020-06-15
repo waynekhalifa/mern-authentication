@@ -6,7 +6,7 @@ exports.register = (req, res) => {
   user.save((err, user) => {
     if (err) return res.status(400).json({ data: err });
 
-    return res.status(200).json({ data: user });
+    return res.status(200).json({ data: { registerSuccess: true } });
   });
 };
 
@@ -37,11 +37,7 @@ exports.login = (req, res) => {
         res
           .cookie("w_auth", user.token)
           .status(200)
-          .json({
-            data: {
-              loginSuccess: true,
-            },
-          });
+          .json({ data: { loginSuccess: true } });
       });
     });
   });
@@ -54,5 +50,13 @@ exports.authUser = (req, res) => {
       name: req.user.name,
       email: req.user.email,
     },
+  });
+};
+
+exports.logout = (req, res) => {
+  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, doc) => {
+    if (err) res.status(400).json({ error: err });
+
+    return res.status(200).json({ data: { logoutSuccess: true } });
   });
 };

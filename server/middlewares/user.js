@@ -6,12 +6,7 @@ exports.auth = (req, res, next) => {
   User.findByToken(token, (err, user) => {
     if (err) throw err;
 
-    if (!user)
-      return res.json({
-        data: {
-          isAuth: false,
-        },
-      });
+    if (!user) return res.json({ data: { isAuth: false } });
 
     req.token = token;
     req.user = user;
